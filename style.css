@@ -10,6 +10,7 @@
 }
 
 .coffee-item {
+  max-height: 75px;
   background: rgba(0,0,0,0.7);
   margin: 10px 0; /* 1 значие вверх/низ, 2- справа/слева */
   border-radius: calc(75px / 2);
@@ -39,4 +40,20 @@
   background: lightgreen;
   border: 3px solid darkgreen;
   padding: 10px; /* Внутренний отступ*/
+  margin-bottom: 30px; /*Отступ снизу*/
+}
+
+.coffee-cup img {
+  width: 100%;
+}
+
+.atm img {
+  width: 100%;
+}
+
+.change-box {
+  background: grey;
+  border: 3px solid black; /*лучше использовать box-sizing*/
+  height: 100px;
+  margin-top: 15px;
 }
