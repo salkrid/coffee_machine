@@ -7,26 +7,30 @@ let coffeeCup = document.querySelector(".coffee-cup img");
 
 let coffeeStatus = "waiting"; // "cooking" "ready" - ожидание заказа
 
+coffeeCup.onclick = takeCoffee; // повесили событие как свойство  - вариант 1
+
+// coffeeCup.addEventListener("click", takeCoffee, par1, par2); // варинат 2  - добавить слушателя событий. 
+// coffeeCup.addEventListener("click", () => { takeCoffe })
+ 
 
 function buyCoffee(name, cost, elem) {
-  if(coffeeStatus != "waiting") {
+  if (coffeeStatus != "waiting") {
     return;
   }
   let afterBuyValue = +balance.value - cost;
- /* alert(`Вы заказали ${name}. Цена: ${cost}`);*/
-  if ( (balance.value - cost) < 0 || Number.isNaN(afterBuyValue)) {// Возвращает значение без "="
+  if ( (balance.value - cost) < 0 || Number.isNaN(afterBuyValue)) {
     balance.style.border = "2px solid red";
     balance.style.backgroundColor = "pink";
     changeDisplayText("Недостаточно средств");
-   /* alert("Недостаточно средств!");*/
     return;
   }
   balance.style.border = "none";
-  balance.style.background = "white";
+  balance.style.backgroundColor = "white";
   balance.value = (+balance.value - cost).toFixed(2);
   cookCoffee(name, elem);
-  // alert("Ваш " + name + " готовится!");
 }
+  // alert("Ваш " + name + " готовится!");
+
 
 function cookCoffee(name, elem) {
   coffeeStatus = "cooking";
@@ -57,8 +61,18 @@ function cookCoffee(name, elem) {
       clearInterval(cookingInterval);
     }
   }, 100);
-  
-//  console.log(elem);
+}
+
+function takeCoffee()  { //будет переводить кофе машину в состояние waiting, ожид заказа
+  if (coffeeStatus != "ready") {
+    return;
+  }
+  coffeeStatus = "waiting";
+  coffeeCup.classList.add("d-none");
+  coffeeCup.style.cursor = "auto";
+  progressBar.style.width = "0%";
+  changeDisplayText("Выберите кофе");
+
 }
 
 function changeDisplayText(text) {
