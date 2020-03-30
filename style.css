@@ -57,3 +57,13 @@
   height: 100px;
   margin-top: 15px;
 }
+
+.wallet img {
+  cursor: pointer;
+  width: 20%;
+  
+}
+
+.change-box {
+position: relative;
+}

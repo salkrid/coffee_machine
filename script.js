@@ -93,8 +93,7 @@ function takeMoney(event) {  // event - e сокращенно
   event.preventDefault(); // сбрасывает изначально записанные события
   
   let bill = this;
-  let billCost = bill.getAttribute("cost");
-  console.log(billCost);
+ // console.log(billCost);
   
   bill.style.position = "absolute";
   bill.style.transform = "rotate(90deg)";
@@ -120,4 +119,134 @@ function takeMoney(event) {  // event - e сокращенно
 
 function dropMoney() {
   window.onmousemove = null; // свойство CSS z-index определяет слои
+  
+  let bill = this;
+  let billCost = bill.getAttribute("cost");
+  
+  if (inAtm(this)) {
+    balance.value = +balance.value + +billCost
+    bill.remove();
+  }
 }
+
+function inAtm(bill) { // Функция принимает купюру
+  let billCoord = bill.getBoundingClientRect(); // объект с коорд купюры
+  let atm = document.querySelector(".atm"); // 
+  let atmCoord = atm.getBoundingClientRect();
+  
+  let billLeftTopCornerX = billCoord.x
+  let billLeftTopCornerY = billCoord.y
+  
+  let billRightTopCornerX = billCoord.x + billCoord.width;
+  let billRightTopCornerY = billCoord.y;
+  
+  let atmLeftTopCornerX = atmCoord.x;
+  let atmLeftTopCornerY = atmCoord.y;
+  
+  let atmRightTopCornerX = atmCoord.x + atmCoord.width;
+  let atmRightTopCornerY = atmCoord.y;
+  
+  let atmLeftBottomCornerX = atmCoord.x;
+  let atmLeftBottomCornerY = atmCoord.y + atmCoord.height/3; 
+  
+  let atmRightBottomCornerX = atmCoord.x + atmCoord.width;
+  let atmRightBottomCornerY = atmCoord.y + atmCoord.height/3; 
+  
+  if (
+      billLeftTopCornerX >= atmLeftTopCornerX
+      && billLeftTopCornerY >= atmLeftTopCornerY
+      && billRightTopCornerX <= atmRightTopCornerX
+      && billRightTopCornerY >= atmRightTopCornerY
+      
+      && billLeftTopCornerX >= atmLeftBottomCornerX
+      && billLeftTopCornerY <= atmLeftBottomCornerY
+    ) {
+
+      return true;
+// console.log(true);
+      
+    } else {
+      return false;
+//console.log(false);
+    }
+}  
+ 
+// -------------------------------Сдача---------------------------------
+
+let changeBtn = document.querySelector(".change");
+changeBtn.onclick = takeChange;
+
+function takeChange() {
+//alert("Сдача!");
+  tossCoin("10");
+}
+
+function tossCoin(cost) {
+  let changeContainer = document.querySelector(".change-box")
+  let changeContainerCoords = changeContainer.getBoundingClientRect();
+  let coinSrc = "";
+  
+  switch (cost) {
+    case "10":
+      coinSrc = "img/10rub.png"
+      break;
+    case "5":
+      coinSrc = "img/5rub.png"
+      break;
+    case "2":
+      coinSrc = "img/2rub.png"
+      break;    
+    case "1":
+      coinSrc = "img/1rub.png"
+      break;
+    
+  }
+ 
+/* changeContainer.innerHTML += `              добавить код HTML
+  <img src="${coinSrc}" style="height: 50px">
+ `*/
+ 
+ let coin = document.createElement("img");
+ coin.setAttribute("src", coinSrc);
+ coin.style.height = "50px";
+ coin.style.cursor = "pointer";
+ coin.style.display = "inline-block";
+ coin.style.position = "absolute";
+ 
+ changeContainer.append(coin); // Прикрепить после внутри элемента
+// changeContainer.prepend(coin); // Прикрепить до внутри элемента
+// changeContainer.after(coin); // После контейнера
+//  changeContainer.before(coin); // Перед контейнером
+// changeContainer.replace(coin) // Заменяет элементы
+  
+ 
+ // console.log(coinSrc);
+ //console.log(changeContainerCoords);
+  //alert(cost);
+
+
+coin.style.top = Math.round(Math.random() * (changeContainerCoords.height - 56)) + "px";
+coin.style.left = Math.round(Math.random() * (changeContainerCoords.width - 56)) + "px";
+
+coin.onclick = () => coin.remove();
+  
+}
+  
+  
+  /*console.log(
+              [
+                [billLeftTopCornerX, billLeftTopCornerY] , [billRightTopCornerX, billRightTopCornerY]
+              ],
+              [
+                [atmLeftTopCornerX, atmLeftTopCornerY] , [atmRightTopCornerX, atmRightTopCornerY],
+                [atmLeftBottomCornerX, atmLeftBottomCornerY] , [atmRightBottomCornerX, atmRightBottomCornerY],
+              ]
+              );*/
+
+// console.log([billCoord, atmCoord]);
+// console.log([billLeftTopCornerX, billLeftTopCornerY] , [billRightTopCornerX, billRightTopCornerY]);
+    
+  
+ 
+
+
